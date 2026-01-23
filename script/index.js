@@ -5,7 +5,17 @@ function loadCatagories(){
 }
 
 function displayCatagories(catagories){
-    console.log(catagories)
+    const catagoryContainer=document.getElementById("catagory-container");
+
+    for (let cat of catagories){
+        console.log(cat)
+
+        const catagoriDiv=document.createElement("div");
+        catagoriDiv.innerHTML=`
+         <button class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white">${cat.category}</button>
+        `;
+        catagoryContainer.appendChild(catagoriDiv)
+    }
 }
 
 loadCatagories()
