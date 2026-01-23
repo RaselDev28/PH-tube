@@ -1,21 +1,66 @@
-function loadCatagories(){
+function loadCatagories() {
     fetch("https://openapi.programming-hero.com/api/phero-tube/categories")
-    .then((res)=>res.json())
-    .then((data)=>displayCatagories(data.categories))
+        .then((res) => res.json())
+        .then((data) => displayCatagories(data.categories))
 }
 
-function displayCatagories(catagories){
-    const catagoryContainer=document.getElementById("catagory-container");
+function loadVedieos() {
+    fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
+        .then((response) => response.json())
+        .then(data => displayVedieos(data.videos))
+}
 
-    for (let cat of catagories){
-        console.log(cat)
+function displayCatagories(catagories) {
+    const catagoryContainer = document.getElementById("catagory-container");
 
-        const catagoriDiv=document.createElement("div");
-        catagoriDiv.innerHTML=`
+    for (let cat of catagories) {
+
+        const catagoriDiv = document.createElement("div");
+        catagoriDiv.innerHTML = `
          <button class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white">${cat.category}</button>
         `;
         catagoryContainer.appendChild(catagoriDiv)
     }
 }
+const displayVedieos = (vedieos) => {
+    const vedieoContainer = document.getElementById("vedieo-container");
+
+    vedieos.forEach(vedieo => {
+        // console.log(vedieo)
+        const vedioCard = document.createElement("div");
+
+        vedioCard.innerHTML = `
+      <div class="card bg-base-100">
+            <figure class="relative">
+                <img class="w-full h-[150px] object-cover" src="${vedieo.thumbnail}" alt="Shoes" />
+                <span class="absolute bottom-2 right-3 text-white text-sm rounded bg-black px-2">3hrs 56 min ago</span>
+            </figure>
+
+            <div class="flex gap-3 px-0 py-5">
+                <div class="profile">
+                    <div class="avatar">
+                        <div class="ring-primary ring-offset-base-100 w-6 rounded-full ring-2 ring-offset-2">
+                            <img src="${vedieo.authors[0].profile_picture}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="intro">
+                    <h2 class="text-sm font-semibold">Building a Winning UX Strategy <br> Using the Kano Model</h2>
+                    <p class="text-sm text-gray-400 flex gap-1">${vedieo.authors[0].profile_name}
+                    
+                    <img class="w-5 h-5"
+                            src="https://img.icons8.com/?size=96&id=98A4yZTt9abw&format=png" alt=""></p>
+                    <p class="text-sm text-gray-400">${vedieo.others.views} views</p>
+                </div>
+            </div>
+        </div>
+    `;
+
+        vedieoContainer.append(vedioCard)
+    });
+}
+
+
 
 loadCatagories()
+loadVedieos()
