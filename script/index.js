@@ -16,7 +16,11 @@ const loadCategoriVedieos = (id) => {
 
     fetch(url)
         .then(res => res.json())
-        .then(data => displayVedieos(data.category))
+        .then(data => {
+            const clickedButton = document.getElementById(`btn-${id}`);
+            clickedButton.classList.add("active")
+            displayVedieos(data.category)
+        })
 }
 
 function displayCatagories(catagories) {
@@ -26,7 +30,7 @@ function displayCatagories(catagories) {
 
         const catagoriDiv = document.createElement("div");
         catagoriDiv.innerHTML = `
-         <button onclick="loadCategoriVedieos(${cat.category_id})" class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white">${cat.category}</button>
+         <button id="btn-${cat.category_id}" onclick="loadCategoriVedieos(${cat.category_id})" class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white">${cat.category}</button>
         `;
         catagoryContainer.appendChild(catagoriDiv)
     }
@@ -35,6 +39,16 @@ const displayVedieos = (vedieos) => {
     const vedieoContainer = document.getElementById("vedieo-container");
 
     vedieoContainer.innerHTML = "";
+
+    if (vedieos.length == 0) {
+        vedieoContainer.innerHTML = `
+        <div class="col-span-full text-center flex flex-col justify-center items-center py-20">
+            <img class="w-[120px]" src="./Icon.png" alt="" srcset="">
+            <h2 class="text-2xl font-bold">Oops!! Sorry, There is no content here</h2>
+        </div>
+        `
+        return;
+    }
 
     vedieos.forEach(vedieo => {
         // console.log(vedieo)
